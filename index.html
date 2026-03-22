@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recommendation Dynamics Model</title>
+    <style>
+      :root {
+        --bg: #f3efe4;
+        --panel: rgba(255, 252, 245, 0.9);
+        --text: #1f2a2e;
+        --muted: #536166;
+        --accent: #b64232;
+        --accent-dark: #7d2b21;
+        --line: rgba(31, 42, 46, 0.14);
+        --blue: #2e5aac;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Georgia, "Times New Roman", serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(46, 90, 172, 0.16), transparent 32%),
+          radial-gradient(circle at bottom right, rgba(182, 66, 50, 0.18), transparent 34%),
+          linear-gradient(160deg, #f6f1e6 0%, #ece4d5 100%);
+      }
+
+      main {
+        width: min(960px, calc(100% - 32px));
+        margin: 48px auto;
+        padding: 40px;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: var(--panel);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 24px 60px rgba(31, 42, 46, 0.12);
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(2.4rem, 4vw, 4.2rem);
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+      }
+
+      p {
+        margin: 0 0 16px;
+        font-size: 1.08rem;
+        line-height: 1.65;
+        color: var(--muted);
+        max-width: 64ch;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin: 28px 0 36px;
+      }
+
+      .button,
+      .button-secondary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 50px;
+        padding: 0 20px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 700;
+        transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+      }
+
+      .button {
+        color: #fffaf2;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+        box-shadow: 0 12px 24px rgba(125, 43, 33, 0.24);
+      }
+
+      .button-secondary {
+        color: var(--text);
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.56);
+      }
+
+      .button:hover,
+      .button-secondary:hover {
+        transform: translateY(-1px);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-top: 12px;
+      }
+
+      .card {
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.52);
+      }
+
+      .card h2 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .card p {
+        margin: 0;
+        font-size: 0.98rem;
+      }
+
+      code {
+        padding: 0.14rem 0.34rem;
+        border-radius: 6px;
+        background: rgba(46, 90, 172, 0.1);
+        color: var(--blue);
+      }
+
+      @media (max-width: 640px) {
+        main {
+          margin: 20px auto;
+          padding: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Recommendation Dynamics</h1>
+      <p>
+        This NetLogo model explores how recommendation systems that favor preference similarity
+        can shift opinions and segregate social networks over time.
+      </p>
+      <p>
+        Use the public launcher below to open the model in NetLogo Web. The model file is hosted
+        from this GitHub Pages site, so updates to <code>my-rec-alg.nlogox</code> will flow through
+        to the same student-facing link after the site is republished.
+      </p>
+
+      <div class="actions">
+        <a
+          class="button"
+          href="https://netlogoweb.org/launch#https://lisacuk.github.io/netlogo-recommendation-dynamics/my-rec-alg.nlogox"
+        >
+          Open In NetLogo Web
+        </a>
+        <a class="button-secondary" href="./my-rec-alg.nlogox">Download Model File</a>
+      </div>
+
+      <div class="grid">
+        <section class="card">
+          <h2>Suggested Setup</h2>
+          <p>Click <code>setup</code>, adjust the sliders and switches, then click <code>go</code>.</p>
+        </section>
+        <section class="card">
+          <h2>What To Watch</h2>
+          <p>Compare the opinion histograms and the segregation metric as rewiring and recommendation noise change.</p>
+        </section>
+        <section class="card">
+          <h2>Direct Share Link</h2>
+          <p>Share this page or the NetLogo Web launcher URL with students once GitHub Pages is enabled.</p>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
