@@ -252,40 +252,111 @@ set-histogram-num-bars 12</setup>
   </widgets>
   <info>## WHAT IS IT?
 
-(a general understanding of what the model is trying to show or explain)
+This model explores a simple question about digital platforms: if recommendations systematically favor content and contacts that are already similar to a user's current views, can that process gradually separate people into more homogeneous social neighborhoods?
+
+Agents begin in two broad groups, shown in blue and red. They differ in their initial bias, receive noisy signals, update their opinions from recommended neighbors, and may rewire one network tie at each step toward a more similar other agent. The model is not meant to reproduce any single real platform. It is a stylized demonstration of how individually reasonable recommendation and rewiring rules can generate collective segregation.
 
 ## HOW IT WORKS
 
-(what rules the agents use to create the overall behavior of the model)
+Each turtle has:
+- a group membership (`group-sign`, blue or red)
+- an initial bias determined by `bias-strength`
+- a current `opinion`
+- a set of undirected social links
+
+The model proceeds in three stages:
+
+1. `setup`
+- creates `num-agents` turtles
+- assigns half the turtles to the blue group and half to the red group
+- draws an initial signal with noise
+- builds a random network with roughly `initial-degree` neighbors per turtle
+
+2. Recommendation and opinion update
+- each turtle looks only at its linked neighbors
+- the recommendation rule ranks neighbors by opinion similarity, with some randomness from `rec-randomness`
+- the turtle's feed contains the top `feed-size` recommended neighbors
+- if `social-influence?` is on, the turtle updates toward the mean opinion in its feed, with strength `influence-strength`
+
+3. Network rewiring
+- if `rewiring?` is on, each turtle drops its most dissimilar current neighbor
+- it then forms a new tie to the candidate with the highest rewiring score
+- the rewiring score mainly rewards similarity, with weight set by `rewiring-homophily`
+
+Over time, the combination of recommendation, influence, and rewiring can increase within-group ties and widen the separation between the two opinion distributions.
 
 ## HOW TO USE IT
 
-(how to use the model, including a description of each of the items in the Interface tab)
+1. Click `setup`.
+2. Adjust the sliders and switches.
+3. Click `go` to run continuously, or `step` to advance one tick at a time.
+
+Interface items:
+
+- `num-agents`: number of agents in the population.
+- `social-influence?`: if on, recommended neighbors can shift opinions.
+- `rewiring?`: if on, agents periodically replace their most dissimilar link.
+- `bias-strength`: initial separation between the two groups.
+- `rec-randomness`: randomness in the recommendation score. Higher values make recommendations less similarity-driven.
+
+Monitors and plots:
+
+- `opinion-mean`: average opinion in the whole population.
+- `opinion-sd`: overall spread of opinions.
+- `polarization-gap`: absolute difference between mean opinion in the red group and mean opinion in the blue group.
+- `segregation`: share of links that connect agents from the same group.
+- `avg in-group links` and `avg-outgroup-links`: average number of same-group and cross-group ties.
+- `Opinion Distributions`: overlaid histograms of blue-group and red-group opinions.
+- `Outgroup vs Ingroup`: ratio of average out-group links to average in-group links.
 
 ## THINGS TO NOTICE
 
-(suggested things for the user to notice while running the model)
+- Does the opinion histogram split into two clearer clusters over time?
+- Does `segregation` rise even when the network starts random?
+- What happens when opinion polarization rises but network segregation does not, or vice versa?
+- How much segregation is driven by rewiring alone compared with social influence?
+- When `rec-randomness` is high, do the two groups remain more mixed?
 
 ## THINGS TO TRY
 
-(suggested things for the user to try to do (move sliders, switches, etc.) with the model)
+- Turn `rewiring?` on and off while keeping `social-influence?` fixed.
+- Turn `social-influence?` on and off while keeping `rewiring?` fixed.
+- Increase `bias-strength` and see whether early separation makes later segregation easier.
+- Increase `rec-randomness` and test whether noisier recommendations reduce clustering.
+- Compare a small population with a larger one and see whether the qualitative dynamics persist.
 
 ## EXTENDING THE MODEL
 
-(suggested things to add or change in the Code tab to make the model more complicated, detailed, accurate, etc.)
+- Add more than two groups or a continuous identity attribute.
+- Let the recommendation algorithm use engagement, popularity, or recency in addition to similarity.
+- Introduce asymmetric influence, so some agents are more persuasive than others.
+- Allow links to have weights rather than simply existing or not existing.
+- Add exogenous shocks, such as a common news event that moves many opinions at once.
+- Track welfare metrics, such as exposure diversity or within-feed disagreement.
 
 ## NETLOGO FEATURES
 
-(interesting or unusual features of NetLogo that the model uses, particularly in the Code tab; or where workarounds were needed for missing features)
+This model uses:
+
+- turtles and undirected links to represent agents and their social network
+- custom reporters for recommendation and rewiring scores
+- monitors and plots to track aggregate outcomes over time
+- an overlaid histogram plot to compare the two group-specific opinion distributions
+
+The model is also saved in `.nlogox` format so it can be opened in NetLogo 7 and shared more easily through NetLogo Web.
 
 ## RELATED MODELS
 
-(models in the NetLogo Models Library and elsewhere which are of related interest)
+This model is conceptually related to NetLogo models about diffusion, networks, homophily, and segregation. It can also be compared with Schelling-style segregation models, although here the key mechanism is algorithmic selection and rewiring rather than residential movement.
 
 ## CREDITS AND REFERENCES
 
-(a reference to the model's URL on the web if it has one, as well as any other necessary credits, citations, and links)
-</info>
+Model created for teaching on recommendation dynamics, polarization, and segregation.
+
+Repository and public sharing page:
+https://github.com/lisacuk/netlogo-recommendation-dynamics
+
+If you use or adapt the model for teaching, it is a good idea to describe it as a stylized demonstration rather than a calibrated empirical model.</info>
   <turtleShapes>
     <shape name="default" rotatable="true" editableColorIndex="0">
       <polygon color="-1920102913" filled="true" marked="true">
