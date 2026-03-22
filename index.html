@@ -6,14 +6,16 @@
     <title>Recommendation Dynamics Model</title>
     <style>
       :root {
-        --bg: #f3efe4;
-        --panel: rgba(255, 252, 245, 0.9);
-        --text: #1f2a2e;
-        --muted: #536166;
-        --accent: #b64232;
-        --accent-dark: #7d2b21;
-        --line: rgba(31, 42, 46, 0.14);
-        --blue: #2e5aac;
+        --bg: #050505;
+        --panel: #0f0f0f;
+        --text: #f2f2f2;
+        --muted: #9da3a8;
+        --line: #2c2c2c;
+        --grid: rgba(0, 255, 170, 0.08);
+        --neon: #00f7a5;
+        --acid: #ff4fd8;
+        --danger: #ff5a36;
+        --blue: #59b7ff;
       }
 
       * {
@@ -23,36 +25,57 @@
       body {
         margin: 0;
         min-height: 100vh;
-        font-family: Georgia, "Times New Roman", serif;
+        font-family: "Courier New", "Lucida Console", Monaco, monospace;
         color: var(--text);
         background:
-          radial-gradient(circle at top left, rgba(46, 90, 172, 0.16), transparent 32%),
-          radial-gradient(circle at bottom right, rgba(182, 66, 50, 0.18), transparent 34%),
-          linear-gradient(160deg, #f6f1e6 0%, #ece4d5 100%);
+          linear-gradient(var(--grid) 1px, transparent 1px),
+          linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+          radial-gradient(circle at 20% 20%, rgba(255, 79, 216, 0.18), transparent 24%),
+          radial-gradient(circle at 80% 0%, rgba(0, 247, 165, 0.18), transparent 28%),
+          linear-gradient(180deg, #030303 0%, #0a0a0a 100%);
+        background-size: 26px 26px, 26px 26px, auto, auto, auto;
       }
 
       main {
         width: min(960px, calc(100% - 32px));
         margin: 48px auto;
         padding: 40px;
-        border: 1px solid var(--line);
-        border-radius: 24px;
-        background: var(--panel);
-        backdrop-filter: blur(8px);
-        box-shadow: 0 24px 60px rgba(31, 42, 46, 0.12);
+        border: 2px solid var(--line);
+        border-radius: 0;
+        background:
+          linear-gradient(180deg, rgba(0, 247, 165, 0.05), transparent 120px),
+          var(--panel);
+        box-shadow:
+          0 0 0 2px rgba(0, 0, 0, 0.8),
+          12px 12px 0 rgba(255, 90, 54, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      main::before {
+        content: "LIVE MODEL NODE // PUBLIC ACCESS";
+        display: inline-block;
+        margin-bottom: 18px;
+        padding: 6px 10px;
+        border: 1px solid var(--neon);
+        color: var(--neon);
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
       }
 
       h1 {
         margin: 0 0 12px;
-        font-size: clamp(2.4rem, 4vw, 4.2rem);
-        line-height: 0.95;
-        letter-spacing: -0.04em;
+        font-size: clamp(2.3rem, 4vw, 4.8rem);
+        line-height: 0.9;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        text-shadow: 3px 0 0 rgba(255, 79, 216, 0.55);
       }
 
       p {
         margin: 0 0 16px;
-        font-size: 1.08rem;
-        line-height: 1.65;
+        font-size: 1rem;
+        line-height: 1.72;
         color: var(--muted);
         max-width: 64ch;
       }
@@ -61,7 +84,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: 14px;
-        margin: 28px 0 36px;
+        margin: 30px 0 36px;
       }
 
       .button,
@@ -71,28 +94,32 @@
         justify-content: center;
         min-height: 50px;
         padding: 0 20px;
-        border-radius: 999px;
+        border: 2px solid;
         text-decoration: none;
         font-size: 1rem;
         font-weight: 700;
-        transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
       }
 
       .button {
-        color: #fffaf2;
-        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-        box-shadow: 0 12px 24px rgba(125, 43, 33, 0.24);
+        color: #03110c;
+        border-color: var(--neon);
+        background: var(--neon);
+        box-shadow: 6px 6px 0 rgba(0, 247, 165, 0.18);
       }
 
       .button-secondary {
         color: var(--text);
-        border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.56);
+        border-color: var(--danger);
+        background: transparent;
+        box-shadow: 6px 6px 0 rgba(255, 90, 54, 0.18);
       }
 
       .button:hover,
       .button-secondary:hover {
-        transform: translateY(-1px);
+        transform: translate(-2px, -2px);
       }
 
       .grid {
@@ -104,16 +131,19 @@
 
       .card {
         padding: 18px;
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.52);
+        border: 2px solid var(--line);
+        border-radius: 0;
+        background:
+          linear-gradient(180deg, rgba(89, 183, 255, 0.05), transparent),
+          rgba(255, 255, 255, 0.01);
       }
 
       .card h2 {
         margin: 0 0 8px;
         font-size: 1rem;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.12em;
+        color: var(--acid);
       }
 
       .card p {
@@ -123,9 +153,19 @@
 
       code {
         padding: 0.14rem 0.34rem;
-        border-radius: 6px;
-        background: rgba(46, 90, 172, 0.1);
+        border-radius: 0;
+        border: 1px solid rgba(89, 183, 255, 0.34);
+        background: rgba(89, 183, 255, 0.08);
         color: var(--blue);
+      }
+
+      .lede {
+        max-width: 72ch;
+      }
+
+      .lede strong {
+        color: var(--neon);
+        font-weight: 700;
       }
 
       @media (max-width: 640px) {
@@ -139,14 +179,14 @@
   <body>
     <main>
       <h1>Recommendation Dynamics</h1>
-      <p>
+      <p class="lede">
         This NetLogo model explores how recommendation systems that favor preference similarity
         can shift opinions and segregate social networks over time.
       </p>
-      <p>
+      <p class="lede">
         Use the public launcher below to open the model in NetLogo Web. The model file is hosted
         from this GitHub Pages site, so updates to <code>my-rec-alg.nlogox</code> will flow through
-        to the same student-facing link after the site is republished.
+        to the same student-facing link after the site is republished. <strong>Same model. Harder surface.</strong>
       </p>
 
       <div class="actions">
